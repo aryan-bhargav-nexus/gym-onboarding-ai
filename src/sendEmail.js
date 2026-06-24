@@ -165,8 +165,7 @@ async function sendTrainerEmail(member, inbody, assessment, workout, nutrition) 
     const auth = getGoogleAuth();
     const gmail = google.gmail({ version: 'v1', auth });
 
-    const profile = await gmail.users.getProfile({ userId: 'me' });
-    const senderEmail = profile.data.emailAddress;
+    const senderEmail = process.env.GMAIL_USER;
 
     const subject = `New Member — ${member.name} | ${member.primary_goal}`;
     const html = buildTrainerHtml(member, inbody, assessment, workout, nutrition);
@@ -186,8 +185,7 @@ async function sendClientEmail(member, assessment, workout, nutrition) {
     const gmail = google.gmail({ version: 'v1', auth });
 
     const gymName = process.env.GYM_NAME || 'Your Gym';
-    const profile = await gmail.users.getProfile({ userId: 'me' });
-    const senderEmail = profile.data.emailAddress;
+    const senderEmail = process.env.GMAIL_USER;
 
     const subject = `Welcome to ${gymName}, ${member.name} — Your Plan is Ready!`;
     const html = buildClientHtml(member, assessment, workout, nutrition, gymName);

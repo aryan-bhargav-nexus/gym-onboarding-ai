@@ -34,7 +34,7 @@ If any value is not visible in the image, use 0.`;
 async function extractInBody(imageBase64, mimeType) {
   console.log('[extractInBody] Sending image to Gemini for metric extraction...');
 
-  const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+  const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
 
   const imagePart = {
     inlineData: {
