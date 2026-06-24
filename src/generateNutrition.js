@@ -7,7 +7,7 @@ async function generateNutrition(memberProfile, inbodyMetrics, assessment) {
   console.log('[generateNutrition] Generating nutrition plan...');
 
   const model = genAI.getGenerativeModel({
-    model: 'gemini-2.5-flash',
+    model: 'gemini-1.5-flash',
     generationConfig: { temperature: 0.3 }
   });
 
