@@ -1,0 +1,20 @@
+{
+  "name": "gym-onboarding-ai",
+  "version": "1.0.0",
+  "description": "AI-powered gym member onboarding system using Gemini, Gmail, and Google Sheets",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0",
+    "axios": "^1.6.0",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "googleapis": "^140.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
