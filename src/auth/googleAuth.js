@@ -9,7 +9,11 @@ function getGoogleAuth() {
   );
 
   oauth2Client.setCredentials({
-    refresh_token: process.env.GOOGLE_REFRESH_TOKEN
+    refresh_token: process.env.GOOGLE_REFRESH_TOKEN,
+    scope: [
+      'https://www.googleapis.com/auth/gmail.send',
+      'https://www.googleapis.com/auth/spreadsheets'
+    ].join(' ')
   });
 
   return oauth2Client;
