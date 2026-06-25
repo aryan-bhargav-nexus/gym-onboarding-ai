@@ -47,10 +47,16 @@ function extractImageUrl(questions) {
 async function processWebhook(body) {
   console.log('[webhook] ── Starting async processing ──');
 
-  const questions = body.questions || [];
+  // Fillout may nest questions under different keys depending on webhook version
+  const questions = body.questions
+    || body.data?.questions
+    || body.submission?.questions
+    || body.form_response?.answers
+    || [];
 
   if (questions.length === 0) {
-    console.warn('[webhook] No questions array found in body. Check Fillout webhook payload structure.');
+    console.warn('[webhook] No questions array found. Raw body keys: ' + Object.keys(body).join(', '));
+    console.warn('[webhook] Raw body (2000 chars): ' + JSON.stringify(body).slice(0, 2000));
   }
 
   const member = extractMemberData(questions);
