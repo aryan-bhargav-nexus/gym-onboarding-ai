@@ -55,8 +55,7 @@ async function processWebhook(body) {
     || [];
 
   if (questions.length === 0) {
-    console.warn('[webhook] No questions array found. Raw body keys: ' + Object.keys(body).join(', '));
-    console.warn('[webhook] Raw body (2000 chars): ' + JSON.stringify(body).slice(0, 2000));
+    console.warn('[webhook] No questions array found in body. Keys: ' + Object.keys(body).join(', '));
   }
 
   const member = extractMemberData(questions);
@@ -84,6 +83,9 @@ async function processWebhook(body) {
     imageDownloadFailed = true;
   }
 
+  // Small delay between each Gemini call to stay within per-minute quota
+  const geminiPause = () => new Promise(resolve => setTimeout(resolve, 5000));
+
   // ── Step 3: Generate trainer assessment ───────────────────────────────────
   let assessment = '';
   try {
@@ -94,6 +96,8 @@ async function processWebhook(body) {
     assessment = 'Trainer assessment could not be generated automatically. Please assess manually.';
   }
 
+  await geminiPause();
+
   // ── Step 4: Generate workout plan ─────────────────────────────────────────
   let workout = '';
   try {
@@ -103,6 +107,8 @@ async function processWebhook(body) {
     console.error(`[webhook] Workout generation failed: ${error.message}`);
     workout = 'Workout plan could not be generated automatically. Please create manually.';
   }
+
+  await geminiPause();
 
   // ── Step 5: Generate nutrition plan ───────────────────────────────────────
   let nutrition = '';

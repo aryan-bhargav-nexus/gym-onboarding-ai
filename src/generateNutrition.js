@@ -72,8 +72,10 @@ ${assessment}`;
       lastError = error;
       console.error(`[generateNutrition] Attempt ${attempt} failed: ${error.message}`);
       if (attempt === 1) {
-        console.log('[generateNutrition] Retrying in 2 seconds...');
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        const delayMatch = error.message.match(/"retryDelay":"(\d+)s"/);
+        const delayMs = delayMatch ? (parseInt(delayMatch[1], 10) + 2) * 1000 : 65000;
+        console.log(`[generateNutrition] Retrying in ${delayMs / 1000} seconds...`);
+        await new Promise(resolve => setTimeout(resolve, delayMs));
       }
     }
   }

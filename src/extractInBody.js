@@ -61,8 +61,10 @@ async function extractInBody(imageBase64, mimeType) {
       lastError = error;
       console.error(`[extractInBody] Attempt ${attempt} failed: ${error.message}`);
       if (attempt === 1) {
-        console.log('[extractInBody] Retrying in 2 seconds...');
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        const delayMatch = error.message.match(/"retryDelay":"(\d+)s"/);
+        const delayMs = delayMatch ? (parseInt(delayMatch[1], 10) + 2) * 1000 : 65000;
+        console.log(`[extractInBody] Retrying in ${delayMs / 1000} seconds...`);
+        await new Promise(resolve => setTimeout(resolve, delayMs));
       }
     }
   }

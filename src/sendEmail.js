@@ -93,13 +93,6 @@ function buildTrainerHtml(member, inbody, assessment, workout, nutrition) {
 function buildClientHtml(member, assessment, workout, nutrition, gymName) {
   const escape = (v) => String(v == null ? '' : v).replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
-  // Extract the milestones section from the assessment text
-  let milestones = '';
-  const milestoneMatch = assessment.match(/4\.\s*REALISTIC MILESTONES([\s\S]*?)(?=\n\d\.\s[A-Z]|$)/i);
-  if (milestoneMatch) {
-    milestones = milestoneMatch[1].trim();
-  }
-
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -111,7 +104,6 @@ function buildClientHtml(member, assessment, workout, nutrition, gymName) {
   .header{background:#1a1a2e;color:#fff;padding:28px 24px;border-radius:8px;margin-bottom:24px}
   .header p{margin:8px 0 0;color:#ccc;font-size:15px}
   pre{background:#f8f8f8;padding:16px;border-left:4px solid #e94560;white-space:pre-wrap;word-wrap:break-word;font-family:Arial,Helvetica,sans-serif;font-size:13px;margin:0}
-  .milestones{background:#fffde7;border:1px solid #f9a825;padding:16px;border-radius:6px}
   .next-steps{background:#e8f5e9;border:1px solid #388e3c;padding:20px;border-radius:6px}
   .next-steps h2{border-color:#388e3c;color:#1b5e20}
   ol{margin:8px 0;padding-left:20px;line-height:1.9}
@@ -126,12 +118,10 @@ function buildClientHtml(member, assessment, workout, nutrition, gymName) {
   </div>
 
   <p>Hi ${escape(member.name)},</p>
-  <p>We have analysed your InBody report and created a plan tailored to your goal of <strong>${escape(member.primary_goal)}</strong>. Everything below is specific to your body composition, fitness history, and the number of days you can train. Follow this plan consistently and you will see real, measurable results.</p>
+  <p>We have analysed your InBody report and created a complete plan tailored to your goal of <strong>${escape(member.primary_goal)}</strong>. Everything below is specific to your body composition, fitness history, and the number of days you can train.</p>
 
-  <h2>Your Milestone Timeline</h2>
-  <div class="milestones">
-    <pre>${escape(milestones || 'Please see your trainer for your milestone targets.')}</pre>
-  </div>
+  <h2>Your Trainer Assessment</h2>
+  <pre>${escape(assessment)}</pre>
 
   <h2>Your Weekly Workout Plan</h2>
   <pre>${escape(workout)}</pre>
@@ -142,7 +132,7 @@ function buildClientHtml(member, assessment, workout, nutrition, gymName) {
   <div class="next-steps">
     <h2>Next Steps</h2>
     <ol>
-      <li><strong>Show this email to your trainer on Day 1</strong> — they already have a full copy of your assessment.</li>
+      <li>Read through your assessment and share any questions with your trainer on Day 1.</li>
       <li>Read through your workout plan the evening before each training session.</li>
       <li>Meal prep your first week using the sample meal plan as a guide.</li>
       <li>Track your food in MyFitnessPal or Healthifyme to stay on your macro targets.</li>
